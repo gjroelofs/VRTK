@@ -24,6 +24,9 @@ namespace VRTK
     [AddComponentMenu("VRTK/Scripts/UI/VRTK_UICanvas")]
     public class VRTK_UICanvas : MonoBehaviour
     {
+
+        public const bool CREATE_DRAGGABLE_PANEL = false;
+        
         [Tooltip("Determines if a UI Click action should happen when a UI Pointer game object collides with this canvas.")]
         public bool clickOnPointerCollision = false;
         [Tooltip("Determines if a UI Pointer will be auto activated if a UI Pointer game object comes within the given distance of this canvas. If a value of `0` is given then no auto activation will occur.")]
@@ -32,6 +35,7 @@ namespace VRTK
         protected BoxCollider canvasBoxCollider;
         protected Rigidbody canvasRigidBody;
         protected Coroutine draggablePanelCreation;
+        
         protected const string CANVAS_DRAGGABLE_PANEL = "VRTK_UICANVAS_DRAGGABLE_PANEL";
         protected const string ACTIVATOR_FRONT_TRIGGER_GAMEOBJECT = "VRTK_UICANVAS_ACTIVATOR_FRONT_TRIGGER";
 
@@ -121,7 +125,11 @@ namespace VRTK
                 canvasRigidBody.isKinematic = true;
             }
 
-            draggablePanelCreation = StartCoroutine(CreateDraggablePanel(canvas, canvasSize));
+            if (CREATE_DRAGGABLE_PANEL)
+            {
+                draggablePanelCreation = StartCoroutine(CreateDraggablePanel(canvas, canvasSize));
+            }
+
             CreateActivator(canvas, canvasSize);
         }
 
